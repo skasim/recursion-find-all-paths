@@ -7,8 +7,26 @@ import java.util.Scanner;
 import static com.sk.paths.io.FileUtils.*;
 import static com.sk.paths.matrix.ProcessMatrix.processMatrix;
 
+/**
+ * The program reads an input file, which contains matrices representing a connected graph. The program processes the
+ * matrix using a recursive function findPath to find the paths between two nodes and when a particular path has been
+ * processed to backtrack and find new paths, until all possible paths have been exhausted. The program uses the processMatrix
+ * method to loop through the two-dimensional array to ensure all nodes are processed. The program writes the output to
+ * an output file.
+ *
+ * @author Samra Kasim
+ */
 public class Paths {
-
+  /**
+   * Main method to enter the program. Input and output filepaths are provided as arguments in the command line.
+   * The class reads each row of input text character by character. The method any comments provided using // in the
+   * input file. The method then reads the first line of input as the size of the matrix and uses that value to process
+   * the remaining rows of the matrix and adds then to a two dimensional matrix. The method then passes that array to
+   * the processMatrix function, which process the matrix and compares every node to every other node and writes the
+   * generated paths to an output file. The method loops through the input file until all matrices are processed.
+   *
+   * @param args Takes two command line arguments, the input filepath and the output filepath
+   */
   public static void main(String[] args) {
     // Check if input and output filepaths are provided. If not, exit program execution.
     if (args.length != 2) {
@@ -32,8 +50,8 @@ public class Paths {
       int matrixCount = 1;
 
       while(scanner.hasNextLine()) {
-
         String line = scanner.nextLine();
+
         try {
           int matrixSize = Integer.parseInt(line);
           writeFileLineByLine(outFile, "\n########################################\n");

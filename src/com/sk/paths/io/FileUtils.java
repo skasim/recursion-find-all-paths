@@ -28,7 +28,7 @@ public class FileUtils {
       return 1;
     }
     else {
-      return -1; // TODO more error handling here
+      return -1;
     }
   }
 
@@ -73,10 +73,10 @@ public class FileUtils {
 
   /**
    * Helper method to facilitate the writing of an com.sk.paths.array to output. The method first loops through the com.sk.paths.array and
-   * then prints out the com.sk.paths.array integer by interger
+   * then prints out the com.sk.paths.array integer by integer
    * @param outFile: File object representing the output file.
-   * @param arr: int[] object representing the path com.sk.paths.array
-   * @param pathSize: int object representing the size of the path to mitigate use of .length or .size functions
+   * @param arr: int[] object representing the path.
+   * @param pathSize: int object representing the size of the path to mitigate use of .length or .size functions.
    */
   public static void writeArray(File outFile, int[] arr, int pathSize)  {
     BufferedWriter writer = createWriter(outFile);
@@ -97,9 +97,9 @@ public class FileUtils {
 
   /**
    * Helper method to take a row of input and based on the matrix of the size convert into an int com.sk.paths.array
-   * @param row: A string of number from the input file representing a row of the matrix
-   * @param matrixSize: int value representing the size of the matrix
-   * @return: An int[] representing the String row in an com.sk.paths.array form
+   * @param row: A string of number from the input file representing a row of the matrix.
+   * @param matrixSize: int value representing the size of the matrix.
+   * @return: An int[] representing the String row in an array form.
    */
   public static int[] parseRow(String row, int matrixSize) {
     int[] rowArr = new int[matrixSize];
