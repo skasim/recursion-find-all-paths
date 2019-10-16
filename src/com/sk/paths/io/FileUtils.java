@@ -82,6 +82,7 @@ public class FileUtils {
     BufferedWriter writer = createWriter(outFile);
     try {
       writer.newLine();
+      // Loops through an array to print it out as integers instead of using a .toString method
       for (int i=0; i<pathSize; i++) {
         writer.write(arr[i] + " ");
       }
@@ -102,8 +103,10 @@ public class FileUtils {
    * @return: An int[] representing the String row in an array form.
    */
   public static int[] parseRow(String row, int matrixSize) {
+    // Create a row array using the matrix size since we know how many elements will be in each row
     int[] rowArr = new int[matrixSize];
     int index = 0;
+    // Read row character by character and convert the character to an integer and add it to the row array
     for (char c : row.toCharArray()) {
       int num = convertCharToInt(c);
       if (num != -1) {

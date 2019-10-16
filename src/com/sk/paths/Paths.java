@@ -14,9 +14,11 @@ import static com.sk.paths.matrix.ProcessMatrix.processMatrix;
  * method to loop through the two-dimensional array to ensure all nodes are processed. The program writes the output to
  * an output file.
  *
+ *  To execute the program, refer to the README.
+ *
  * @author Samra Kasim
  */
-public class Paths {
+public class Paths { // TODO clean out to do
   /**
    * Main method to enter the program. Input and output filepaths are provided as arguments in the command line.
    * The class reads each row of input text character by character. The method any comments provided using // in the
@@ -39,7 +41,7 @@ public class Paths {
     File outFile = new File(outFilepath);
 
     try {
-      // Instantiate objects used throughout project execution
+      // Instantiate Scanner object to read in the input file
       Scanner scanner = new Scanner(new File(inFilepath));
 
       writeFileLineByLine(outFile, "########################################\n");
@@ -49,32 +51,39 @@ public class Paths {
 
       int matrixCount = 1;
 
+      // Parse the input file line by line
       while(scanner.hasNextLine()) {
         String line = scanner.nextLine();
 
         try {
+          // Set the first line as the matrix size
           int matrixSize = Integer.parseInt(line);
           writeFileLineByLine(outFile, "\n########################################\n");
           writeFileLineByLine(outFile, "              Matrix " + matrixCount +" of Size " + matrixSize+"\n");
           writeFileLineByLine(outFile, "########################################\n");
           matrixCount++;
+          // Create a two dimensional array based on the matrix. Matrix size is increased by 1 to allow for indexing
+          // beginning at 1 instead of 0
           int[][] arr = new int[matrixSize + 1][matrixSize + 1];
           writeFileLineByLine(outFile, "\n" + line);
+          // Using the matrix size, loop the same number of lines as the matrix size
           for (int i = 1; i <= matrixSize; i++) {
             String row = scanner.nextLine();
             writeFileLineByLine(outFile, row);
+            // Parse each row of the matrix and add the values to the two dimensional array
             int[] parsedRow = parseRow(row, matrixSize);
             for (int j = 1; j <= matrixSize; j++) {
               arr[i][j] = parsedRow[j - 1];
             }
           }
           System.out.println("MATRIX " + matrixSize);
+          // Process the matrix by providing the two dimensional array and write paths to outputfile
           processMatrix(arr, matrixSize, outFile);
         } catch (NumberFormatException e) {
           System.err.println(e.toString());
         }
       }
-
+      // Close the scanner once the input file has been processed
       scanner.close();
     } catch (IOException e) {
       System.err.println(e.toString());

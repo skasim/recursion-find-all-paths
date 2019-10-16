@@ -21,7 +21,11 @@ public class ArrayUtils {
    * @return: An int[] representing the newly formed array.
    */
   public static int[] deleteElem(int[] arr, int elem, int pathSize, boolean isCyclic) {
+    // Create a new array that is one less than the original array since we are deleting
     int[] newArr = new int[pathSize-1];
+    // Cyclic paths versus non-cyclic paths are handled different. Here the path is non-cyclic, so we rebuild the new array
+    // by taking values from the original array and adding it to the new array in a loop and then ignoring the element, we
+    // want deleted
     if (!isCyclic) {
       int count = 0;
       for (int i=0; i<pathSize; i++) {
@@ -35,7 +39,10 @@ public class ArrayUtils {
           }
         }
       }
-    } else{
+    } else {
+      // If the path is cyclic, the we handle things differently because we will have two of the same number in the path
+      // so we have to ensure that the first number never gets deleted. So we build the array by always prepending the
+      // first node and then adding nodes to the array while ignoring the node that has been removed
       newArr[0] = arr[0];
       int count = 1;
       for (int i=1; i<pathSize; i++) {
@@ -63,6 +70,9 @@ public class ArrayUtils {
    * @return: An int[] representing the newly formed array.
    */
   public static int[] addElem(int[] arr, int elem, int pathSize) {
+    // To add an element to an array, we build a new array that is one element bigger and we loop through the old array
+    // and add it's elements one by one to the new array and then we add the element to be inserted as the last node
+    // node in the array
     int[] newArr = new int[pathSize + 1];
     for (int i=0; i< pathSize; i++) {
       newArr[i] = arr[i];

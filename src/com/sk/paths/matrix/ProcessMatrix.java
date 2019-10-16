@@ -27,29 +27,42 @@ public class ProcessMatrix {
    * @param outfile: File object representing the output file.
    */
   public static void processMatrix(int[][] arr, int matrixSize, File outfile) {
+    // Process the matrix using two for loops to access the value at arr[i][j]
     for (int i=1; i<=matrixSize; i++) {
 
       for (int j=1; j<=matrixSize; j++) {
-        // Find paths
         int start = i;
         int end = j;
         int totalNodes = matrixSize;
 
         System.out.println("Paths from " + start +" to " + end + ""); // TODO Delete all sys outs
         writeFileLineByLine(outfile, "\nPaths from " + start +" to " + end);
+        // If the start value equals the end value and arr[start][end] is 1, this means it's a self-loop so write to outputfile
+        // and exist if statement
         if (start == end) {
           if (arr[start][end] == 1) {
             System.out.println("  PATH: [" + start + ", " + end + "]");
             writeFileLineByLine(outfile,start + " " + end);
           } else {
+            // If the start value equals the end value but it's not a self loop then find all the paths from the start value
+            // to itself
             for (int l=1; l<= totalNodes; l++) {
+              // Create a new visited array
               boolean[] visited = new boolean[totalNodes+1];
+              // Set pathSize as 0
               int pathSize = 0;
+              // Create a new path array
               int[] path = new int[0];
+              // Add the start node to the array and increase the path size from 0 to 1
               path = addElem(path, start, pathSize);
               pathSize++;
-
+              // If the start node is connected to the next node, then begin the process using the findPath recursive method
+              // to find all paths. This is way of being able to get past the problem of findPath stopping when start node
+              // equals end node. So the program takes the start node and compares it to every other node. If there is a link
+              // between the start node and the second node, then it submits the second node as the start node while prepending
+              // the real start node and the second node to the path and then proceeding to find the other nodes
               if (arr[start][l] == 1) {
+                // isCyclic boolean indicates that this is a loop that ends in a cycle
                 boolean isCyclic = true;
                 path = addElem(path, l, pathSize);
                 pathSize++;
@@ -58,13 +71,16 @@ public class ProcessMatrix {
             }
           }
         } else {
-            boolean[] visited = new boolean[totalNodes+1];
-            int pathSize = 0;
-            int[] path = new int[0];
-            path = addElem(path, start, pathSize);
-            pathSize++;
-            boolean isCyclic = false;
-            findPath(start, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
+          // If the start node does not equal the end, then we continue here by initializing the relevant variables
+          boolean[] visited = new boolean[totalNodes+1];
+          int pathSize = 0;
+          int[] path = new int[0];
+          // Add the start node to the path and increase pathSize by 1
+          path = addElem(path, start, pathSize);
+          pathSize++;
+          // isCyclic boolean is set to false since this is not a cyclic loop
+          boolean isCyclic = false;
+          findPath(start, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
         }
       }
     }
@@ -88,8 +104,11 @@ public class ProcessMatrix {
    */
   private static void findPath(int start, int end, int[][] arr, int totalNodes, boolean[] visited, int[] path,
                                int pathSize, boolean isCyclic, File outfile) {
+    // Set the start node to visited
     visited[start] = true;
 
+    // If start node equals end node then we set visited to false and we print out the path and exit out of the
+    // recursive statement to start going back up the call stack
     if (start == end) {
       visited[start] = false;
       System.out.println("  PATH: " + Arrays.toString(path));
@@ -97,21 +116,29 @@ public class ProcessMatrix {
       return;
     }
 
+    // This loop compares the start node to every other node
     for (int k=1; k<=totalNodes; k++) {
-
+      // If the arr[start][someNode] = 1; i.e., there is a connection and tht node has not been visited
       if (arr[start][k] == 1) {
         if (!visited[k]) {
-
+          // Then the node is marked as visited and the node is added to the path and pathSize is incremented by 1
           visited[k] = true;
           path = addElem(path, k, pathSize);
           pathSize++;
+          // At this point, and I think this is really cool and it took me a while to figure out, we then pass the current
+          // end node as the NEW start node. So we are getting bit by bit closer to the final destination end node
           findPath(k, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
+          // We delete the node from the path to allow backtracking as we exit the recursive statement and all the findPath
+          // functions in the call stack start to return. We also decrease the pathSize by 1 to allow for the deletion
           path = deleteElem(path, k, pathSize, isCyclic);
           pathSize--;
         }
       }
     }
+    // We also set the previously visited node to false to allow us to backtrack over this node again
     visited[start] = false;
+    // Here we check to see if we have found a direct path from start node to end node and write to output if we haven't
+    // found a direct path
     if (arr[start][end] == 0  && pathSize == 1) {
       System.out.println("  No direct path found from " + start + " to " + end);
           writeFileLineByLine(outfile, "No direct path found from " + start + " to " + end);
