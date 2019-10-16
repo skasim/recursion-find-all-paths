@@ -1,4 +1,4 @@
-package utils;
+package com.sk.paths.array;
 
 public class ArrayUtils {
 

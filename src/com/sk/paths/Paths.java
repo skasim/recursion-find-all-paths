@@ -24,24 +24,37 @@ public class Paths {
       // Instantiate objects used throughout project execution
       Scanner scanner = new Scanner(new File(inFilepath));
 
+      writeFileLineByLine(outFile, "########################################\n");
+      writeFileLineByLine(outFile, "#    Lab2: Find All Paths              #\n");
+      writeFileLineByLine(outFile, "#    By: Samra Kasim                   #\n");
+      writeFileLineByLine(outFile, "########################################\n");
+
+      int matrixCount = 1;
+
       while(scanner.hasNextLine()) {
 
         String line = scanner.nextLine();
-        writeFileLineByLine(outFile, "\n" + line);
-        int matrixSize = Integer.parseInt(line);
-        int[][] arr = new int[matrixSize+1][matrixSize+1];
-
-        for (int i=1; i<=matrixSize; i++) {
-          String row = scanner.nextLine();
-          writeFileLineByLine(outFile, row);
-          int[] parsedRow = parseRow(row, matrixSize);
-          for (int j=1; j<=matrixSize; j++) {
-            arr[i][j] = parsedRow[j-1];
+        try {
+          int matrixSize = Integer.parseInt(line);
+          writeFileLineByLine(outFile, "\n########################################\n");
+          writeFileLineByLine(outFile, "              Matrix " + matrixCount +" of Size " + matrixSize+"\n");
+          writeFileLineByLine(outFile, "########################################\n");
+          matrixCount++;
+          int[][] arr = new int[matrixSize + 1][matrixSize + 1];
+          writeFileLineByLine(outFile, "\n" + line);
+          for (int i = 1; i <= matrixSize; i++) {
+            String row = scanner.nextLine();
+            writeFileLineByLine(outFile, row);
+            int[] parsedRow = parseRow(row, matrixSize);
+            for (int j = 1; j <= matrixSize; j++) {
+              arr[i][j] = parsedRow[j - 1];
+            }
           }
+          System.out.println("MATRIX " + matrixSize);
+          processMatrix(arr, matrixSize, outFile);
+        } catch (NumberFormatException e) {
+          System.err.println(e.toString());
         }
-        System.out.println("MATRIX " + matrixSize);
-        printArray(arr, matrixSize);
-        processMatrix(arr, matrixSize, outFile);
       }
 
       scanner.close();

@@ -3,8 +3,9 @@ package com.sk.paths.matrix;
 import java.io.File;
 import java.util.Arrays;
 
+import static com.sk.paths.io.FileUtils.writeArray;
 import static com.sk.paths.io.FileUtils.writeFileLineByLine;
-import static utils.ArrayUtils.*;
+import static com.sk.paths.array.ArrayUtils.*;
 
 public class ProcessMatrix {
 
@@ -22,7 +23,7 @@ public class ProcessMatrix {
         if (start == end) {
           if (arr[start][end] == 1) {
             System.out.println("  PATH: [" + start + ", " + end + "]");
-            writeFileLineByLine(outfile, "  PATH: [" + start + ", " + end + "]");
+            writeFileLineByLine(outfile,start + " " + end);
           } else {
             for (int l=1; l<= totalNodes; l++) {
               boolean[] visited = new boolean[totalNodes+1];
@@ -58,7 +59,7 @@ public class ProcessMatrix {
     if (start == end) {
       visited[start] = false;
       System.out.println("  PATH: " + Arrays.toString(path));
-      writeFileLineByLine(outfile, "  PATH: " + Arrays.toString(path));
+      writeArray(outfile, path, pathSize);
       return;
     }
 
@@ -79,7 +80,7 @@ public class ProcessMatrix {
     visited[start] = false;
     if (arr[start][end] == 0  && pathSize == 1) {
       System.out.println("  No direct path found from " + start + " to " + end);
-          writeFileLineByLine(outfile, "  No direct path found from " + start + " to " + end);
+          writeFileLineByLine(outfile, "No direct path found from " + start + " to " + end);
     }
   }
 }

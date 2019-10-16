@@ -5,6 +5,14 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * A class representing utility methods to facilitate reading of input file and writing to output file. Since the input
+ * is read character by character, there are some unique helper methods that were needed such as convertingCharToInt to
+ * return the integer representation of a character. The parsing of the a row of input into an array and writing
+ * an array to output are also handled in this class.
+ *
+ * @author Samra Kasim
+ */
 public class FileUtils {
 
   /**
@@ -45,7 +53,6 @@ public class FileUtils {
    * Helper method to facilitate the writing of a file line by line (by appending to a file).
    * @param outFile: File object representing the output file.
    * @param line: String value representing a line of input text.
-   * @throws IOException
    */
   public static void writeFileLineByLine(File outFile, String line)  {
     BufferedWriter writer = createWriter(outFile);
@@ -64,7 +71,36 @@ public class FileUtils {
     }
   }
 
+  /**
+   * Helper method to facilitate the writing of an com.sk.paths.array to output. The method first loops through the com.sk.paths.array and
+   * then prints out the com.sk.paths.array integer by interger
+   * @param outFile: File object representing the output file.
+   * @param arr: int[] object representing the path com.sk.paths.array
+   * @param pathSize: int object representing the size of the path to mitigate use of .length or .size functions
+   */
+  public static void writeArray(File outFile, int[] arr, int pathSize)  {
+    BufferedWriter writer = createWriter(outFile);
+    try {
+      writer.newLine();
+      for (int i=0; i<pathSize; i++) {
+        writer.write(arr[i] + " ");
+      }
+    } catch (IOException e) {
+      System.err.println(e.toString());
+    }
+    try {
+      writer.close();
+    } catch (IOException e) {
+      System.err.println(e.toString());
+    }
+  }
 
+  /**
+   * Helper method to take a row of input and based on the matrix of the size convert into an int com.sk.paths.array
+   * @param row: A string of number from the input file representing a row of the matrix
+   * @param matrixSize: int value representing the size of the matrix
+   * @return: An int[] representing the String row in an com.sk.paths.array form
+   */
   public static int[] parseRow(String row, int matrixSize) {
     int[] rowArr = new int[matrixSize];
     int index = 0;
@@ -76,17 +112,5 @@ public class FileUtils {
       }
     }
     return rowArr;
-  }
-  // TODO Delete
-  public static void printArray(int[][] arr, int matrixSize) {
-    System.out.println("Array");
-    for(int i=1; i<=matrixSize; i++)
-    {
-      for(int j=1; j<=matrixSize; j++)
-      {
-        System.out.print(arr[i][j]+ "  ");
-      }
-      System.out.println();
-    }
   }
 }
