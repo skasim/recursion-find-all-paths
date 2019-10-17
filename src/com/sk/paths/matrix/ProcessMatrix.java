@@ -140,8 +140,8 @@ public class ProcessMatrix {
     // Here we check to see if we have found a direct path from start node to end node and write to output if we haven't
     // found a direct path
     if (arr[start][end] == 0  && pathSize == 1) {
-      System.out.println("  No direct path found from " + start + " to " + end);
-          writeFileLineByLine(outfile, "No direct path found from " + start + " to " + end);
+      System.out.println("  No path found directly from " + start + " to " + end);
+          writeFileLineByLine(outfile, "No path found directly from " + start + " to " + end);
     }
   }
 }

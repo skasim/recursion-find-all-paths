@@ -6,3 +6,4 @@ By Samra Kasim
 * To run the program from the `src` directory run `java com.sk.paths.Paths ../input/PathsGraphInput.txt ../output/PathsGraphOutput.txt`
 for the provided input file and `java com.sk.paths.Paths ../input/StudentPathsGraphInput.txt ../output/StudentPathsGraphOutput.txt`
 for student generated data
+* Java 1.8 and IDE is IntelliJ

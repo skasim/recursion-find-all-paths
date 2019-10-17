@@ -58,6 +58,8 @@ public class Paths { // TODO clean out to do
         try {
           // Set the first line as the matrix size
           int matrixSize = Integer.parseInt(line);
+          // Error handling for a misplaced matrix size when no matrix follows
+          if (matrixSize == 0 || matrixSize == 1) throw new NumberFormatException();
           writeFileLineByLine(outFile, "\n########################################\n");
           writeFileLineByLine(outFile, "              Matrix " + matrixCount +" of Size " + matrixSize+"\n");
           writeFileLineByLine(outFile, "########################################\n");
