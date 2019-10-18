@@ -18,7 +18,7 @@ import static com.sk.paths.matrix.ProcessMatrix.processMatrix;
  *
  * @author Samra Kasim
  */
-public class Paths { // TODO clean out to do
+public class Paths {
   /**
    * Main method to enter the program. Input and output filepaths are provided as arguments in the command line.
    * The class reads each row of input text character by character. The method any comments provided using // in the
@@ -78,7 +78,6 @@ public class Paths { // TODO clean out to do
               arr[i][j] = parsedRow[j - 1];
             }
           }
-          System.out.println("MATRIX " + matrixSize);
           // Process the matrix by providing the two dimensional array and write paths to outputfile
           processMatrix(arr, matrixSize, outFile);
         } catch (NumberFormatException e) {

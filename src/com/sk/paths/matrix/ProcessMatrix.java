@@ -35,13 +35,11 @@ public class ProcessMatrix {
         int end = j;
         int totalNodes = matrixSize;
 
-        System.out.println("Paths from " + start +" to " + end + ""); // TODO Delete all sys outs
         writeFileLineByLine(outfile, "\nPaths from " + start +" to " + end);
         // If the start value equals the end value and arr[start][end] is 1, this means it's a self-loop so write to outputfile
         // and exist if statement
         if (start == end) {
           if (arr[start][end] == 1) {
-            System.out.println("  PATH: [" + start + ", " + end + "]");
             writeFileLineByLine(outfile,start + " " + end);
           } else {
             // If the start value equals the end value but it's not a self loop then find all the paths from the start value
@@ -111,7 +109,6 @@ public class ProcessMatrix {
     // recursive statement to start going back up the call stack
     if (start == end) {
       visited[start] = false;
-      System.out.println("  PATH: " + Arrays.toString(path));
       writeArray(outfile, path, pathSize);
       return;
     }
@@ -140,7 +137,6 @@ public class ProcessMatrix {
     // Here we check to see if we have found a direct path from start node to end node and write to output if we haven't
     // found a direct path
     if (arr[start][end] == 0  && pathSize == 1) {
-      System.out.println("  No path found directly from " + start + " to " + end);
           writeFileLineByLine(outfile, "No path found directly from " + start + " to " + end);
     }
   }
