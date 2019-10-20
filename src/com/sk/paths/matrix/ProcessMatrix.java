@@ -1,5 +1,7 @@
 package com.sk.paths.matrix;
 
+import com.sk.paths.array.PathFound;
+
 import java.io.File;
 import java.util.Arrays;
 
@@ -64,7 +66,10 @@ public class ProcessMatrix {
                 boolean isCyclic = true;
                 path = addElem(path, l, pathSize);
                 pathSize++;
-                findPath(l, start, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
+                // Instantiate an object to track whether a path has been found. If no path is found for the start and
+                // end nodes then "No Path Found" is written to output.
+                PathFound pathFound = new PathFound(false);
+                findPath(l, start, arr, totalNodes, visited, path, pathSize, isCyclic, outfile, pathFound);
               }
             }
           }
@@ -78,7 +83,10 @@ public class ProcessMatrix {
           pathSize++;
           // isCyclic boolean is set to false since this is not a cyclic loop
           boolean isCyclic = false;
-          findPath(start, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
+          // Instantiate an object to track whether a path has been found. If no path is found for the start and
+          // end nodes then "No Path Found" is written to output.
+          PathFound pathFound = new PathFound(false);
+          findPath(start, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile, pathFound);
         }
       }
     }
@@ -101,14 +109,13 @@ public class ProcessMatrix {
    * @param outfile: outfile: File object representing the output file.
    */
   private static void findPath(int start, int end, int[][] arr, int totalNodes, boolean[] visited, int[] path,
-                               int pathSize, boolean isCyclic, File outfile) {
+                               int pathSize, boolean isCyclic, File outfile, PathFound pathFound) {
     // Set the start node to visited
     visited[start] = true;
 
-    // If start node equals end node then we set visited to false and we print out the path and exit out of the
-    // recursive statement to start going back up the call stack
     if (start == end) {
       visited[start] = false;
+      pathFound.setIsPath(true);
       writeArray(outfile, path, pathSize);
       return;
     }
@@ -124,7 +131,7 @@ public class ProcessMatrix {
           pathSize++;
           // At this point, and I think this is really cool and it took me a while to figure out, we then pass the current
           // end node as the NEW start node. So we are getting bit by bit closer to the final destination end node
-          findPath(k, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile);
+          findPath(k, end, arr, totalNodes, visited, path, pathSize, isCyclic, outfile, pathFound);
           // We delete the node from the path to allow backtracking as we exit the recursive statement and all the findPath
           // functions in the call stack start to return. We also decrease the pathSize by 1 to allow for the deletion
           path = deleteElem(path, k, pathSize, isCyclic);
@@ -134,10 +141,10 @@ public class ProcessMatrix {
     }
     // We also set the previously visited node to false to allow us to backtrack over this node again
     visited[start] = false;
-    // Here we check to see if we have found a direct path from start node to end node and write to output if we haven't
-    // found a direct path
-    if (arr[start][end] == 0  && pathSize == 1) {
-          writeFileLineByLine(outfile, "No path found directly from " + start + " to " + end);
+
+    // Here we check to see if we have not found a path from the start node to the end node. If we haven't we print that out
+    if (!pathFound.getIsPath() && pathSize == 1) {
+      writeFileLineByLine(outfile, "No Path Found");
     }
   }
 }
