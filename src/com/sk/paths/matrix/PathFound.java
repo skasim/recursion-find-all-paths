@@ -1,4 +1,4 @@
-package com.sk.paths.array;
+package com.sk.paths.matrix;
 
 /**
  * A simple POJO to track if a path has been found to facilitate the writing to output when file has not been found. The

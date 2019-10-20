@@ -1,9 +1,6 @@
 package com.sk.paths.matrix;
 
-import com.sk.paths.array.PathFound;
-
 import java.io.File;
-import java.util.Arrays;
 
 import static com.sk.paths.io.FileUtils.writeArray;
 import static com.sk.paths.io.FileUtils.writeFileLineByLine;
